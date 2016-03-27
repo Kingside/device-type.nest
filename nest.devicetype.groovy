@@ -1,14 +1,14 @@
 /**
- *  Nest Direct
+ *  Nest Thermostat
  *
- *  Author: dianoga7@3dgo.net
- *  Code: https://github.com/smartthings-users/device-type.nest
+ *  Author: Max Andreola
+ *  Code: https://github.com/kingside/device-type.nest
  *
  * INSTALLATION
  * =========================================
  * 1) Create a new device type (https://graph.api.smartthings.com/ide/devices)
- *     Name: Nest
- *     Author: dianoga7@3dgo.net
+ *     Name: Nest Thermostat
+ *     Author: Max Andreola
  *     Capabilities:
  *         Polling
  *         Relative Humidity Measurement
@@ -48,7 +48,7 @@
  *
  * 5) That's it, you're done.
  *
- * Copyright (C) 2013 Brian Steere <dianoga7@3dgo.net>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
  * software and associated documentation files (the "Software"), to deal in the Software
  * without restriction, including without limitation the rights to use, copy, modify,
@@ -73,7 +73,7 @@ preferences {
 
 // for the UI
 metadata {
-	definition (name: "Nest", namespace: "smartthings-users", author: "dianoga7@3dgo.net") {
+	definition (name: "Nest Thermostat", namespace: "Kingside", author: "Max Andreola") {
 		capability "Polling"
 		capability "Relative Humidity Measurement"
 		capability "Thermostat"
@@ -110,13 +110,14 @@ metadata {
 				[value: 33, color: "#d04e00"],
 				[value: 36, color: "#bc2323"],
 				// Fahrenheit Color Range
-				[value: 40, color: "#153591"],
-				[value: 44, color: "#1e9cbb"],
-				[value: 59, color: "#90d2a7"],
-				[value: 74, color: "#44b621"],
-				[value: 84, color: "#f1d801"],
-				[value: 92, color: "#d04e00"],
-				[value: 96, color: "#bc2323"]
+				[value: 32, color: "#1177ee"],
+				[value: 50, color: "#1ae0ed"],
+				[value: 64, color: "#26eca5"],
+				[value: 70, color: "#8dec22"],
+				[value: 78, color: "#c8f610"],
+				[value: 84, color: "#f4b617"],
+				[value: 95, color: "#e03314"],
+        [value: 100, color: "#ff0000"]
 			]
 			)
 		}
@@ -135,17 +136,17 @@ metadata {
 		}
 
 		valueTile("heatingSetpoint", "device.heatingSetpoint") {
-			state "default", label:'${currentValue}°', unit:"Heat", backgroundColor:"#bc2323"
+			state "default", label:'${currentValue}°', unit:"Heat", backgroundColor:"#e9ac0f"
 		}
 
 		valueTile("coolingSetpoint", "device.coolingSetpoint") {
-			state "default", label:'${currentValue}°', unit:"Cool", backgroundColor:"#1e9cbb"
+			state "default", label:'${currentValue}°', unit:"Cool", backgroundColor:"#18e6ec"
 		}
 
 		standardTile("thermostatOperatingState", "device.thermostatOperatingState", inactiveLabel: false, decoration: "flat") {
 			state "idle", action:"polling.poll", label:'${name}', icon: "st.sonos.pause-icon"
-			state "cooling", action:"polling.poll", label:'  ', icon: "st.thermostat.cooling", backgroundColor:"#1e9cbb"
-			state "heating", action:"polling.poll", label:'  ', icon: "st.thermostat.heating", backgroundColor:"#bc2323"
+			state "cooling", action:"polling.poll", label:'  ', icon: "st.thermostat.cooling", backgroundColor:"#18e6ec"
+			state "heating", action:"polling.poll", label:'  ', icon: "st.thermostat.heating", backgroundColor:"#e9ac0f"
 			state "fan only", action:"polling.poll", label:'${name}', icon: "st.Appliances.appliances11"
 		}
 
@@ -175,19 +176,19 @@ metadata {
 		}
 
 		standardTile("heatingSetpointUp", "device.heatingSetpoint", canChangeIcon: false, inactiveLabel: false, decoration: "flat") {
-			state "heatingSetpointUp", label:'  ', action:"heatingSetpointUp", icon:"st.thermostat.thermostat-up", backgroundColor:"#bc2323"
+			state "heatingSetpointUp", label:'  ', action:"heatingSetpointUp", icon:"st.thermostat.thermostat-up", backgroundColor:"#e9ac0f"
 		}
 
 		standardTile("heatingSetpointDown", "device.heatingSetpoint", canChangeIcon: false, inactiveLabel: false, decoration: "flat") {
-			state "heatingSetpointDown", label:'  ', action:"heatingSetpointDown", icon:"st.thermostat.thermostat-down", backgroundColor:"#bc2323"
+			state "heatingSetpointDown", label:'  ', action:"heatingSetpointDown", icon:"st.thermostat.thermostat-down", backgroundColor:"#e9ac0f"
 		}
 
 		standardTile("coolingSetpointUp", "device.coolingSetpoint", canChangeIcon: false, inactiveLabel: false, decoration: "flat") {
-			state "coolingSetpointUp", label:'  ', action:"coolingSetpointUp", icon:"st.thermostat.thermostat-up", backgroundColor:"#1e9cbb"
+			state "coolingSetpointUp", label:'  ', action:"coolingSetpointUp", icon:"st.thermostat.thermostat-up", backgroundColor:"#18e6ec"
 		}
 
 		standardTile("coolingSetpointDown", "device.coolingSetpoint", canChangeIcon: false, inactiveLabel: false, decoration: "flat") {
-			state "coolingSetpointDown", label:'  ', action:"coolingSetpointDown", icon:"st.thermostat.thermostat-down", backgroundColor:"#1e9cbb"
+			state "coolingSetpointDown", label:'  ', action:"coolingSetpointDown", icon:"st.thermostat.thermostat-down", backgroundColor:"#18e6ec"
 		}
 
 		main(["temperature", "thermostatOperatingState", "humidity"])
@@ -197,8 +198,8 @@ metadata {
 		// To expose buttons, comment out the first detials line below and uncomment the second details line below.
 		// To expose sliders, uncomment the first details line below and comment out the second details line below.
 
-		details(["temperature", "thermostatOperatingState", "humidity", "thermostatMode", "thermostatFanMode", "presence", "heatingSetpoint", "heatSliderControl", "coolingSetpoint", "coolSliderControl", "temperatureUnit", "refresh"])
-		// details(["temperature", "thermostatOperatingState", "humidity", "thermostatMode", "thermostatFanMode", "presence", "heatingSetpointDown", "heatingSetpoint", "heatingSetpointUp", "coolingSetpointDown", "coolingSetpoint", "coolingSetpointUp", "temperatureUnit", "refresh"])
+		// details(["temperature", "thermostatOperatingState", "humidity", "thermostatMode", "thermostatFanMode", "presence", "heatingSetpoint", "heatSliderControl", "coolingSetpoint", "coolSliderControl", "temperatureUnit", "refresh"])
+		details(["temperature", "thermostatOperatingState", "humidity", "thermostatMode", "thermostatFanMode", "presence", "heatingSetpointDown", "heatingSetpoint", "heatingSetpointUp", "coolingSetpointDown", "coolingSetpoint", "coolingSetpointUp", "temperatureUnit", "refresh"])
 
 		// ============================================================
 
